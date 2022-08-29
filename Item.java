@@ -1,92 +1,45 @@
-package lab7;
+package blueprint;
 
 public class Item {
 
-	public ProductType type;
-	public int quantity=1;
-	public String comment = "" ;
+	private String content;
 
-	public Item (ProductType product , int quantity , String comment)
-	{
-		type = product;
-		if (quantity<=0)
-		{
-			//return NOT POSSIBLE
-		}
-		else
-			{
-			this.quantity = quantity;
-			}
-		this.comment=comment;
+	private TermBagTag bTag;
+
+	private HierarchyTag hTag;
+
+
+	public Item(String cont, TermBagTag tb, HierarchyTag hb) {
+
+		this.content = cont;
+		this.bTag = tb;
+		this.hTag = hb;
+
 	}
 
-	public Item(ProductType product , int quantity )
-	{
-		if (quantity <= 0)
-		{
-			
-		}
-		else
-		{
-			this.quantity = quantity;
-		}
-		type = product;
-	}
-		
-	public Item (ProductType product)
-	{
-		type = product;
+	public Item(String cont, String tb, String hb) {
+
+		this.content = cont;
+		this.bTag = new TermBagTag();
+		this.bTag.setTag(tb);
+		this.hTag = new HierarchyTag();
+		this.hTag.setTag(hb);
+
 	}
 
-	public void AddItems(int quantity)
-	{
-		this.quantity += quantity;
+	@Override
+	public String toString() {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("Content of item is " + this.content + ". TermBagTags of item are " + this.bTag.toString() + " and HierarchyTags of item are "
+						  + hTag.toString());
+		return sb.toString();
 	}
 
-	public boolean remove(int number)
-	{
-		if (quantity > number)
-		{
+	public boolean isMatching(Item sec) {
+		if(sec == null || (this.bTag.isMatching(sec.bTag) && this.hTag.isMatching(sec.hTag))){
 			return true;
 		}
-		else
-		{
-			return false;
-		}
-	}
-
-	public int getQuantity()
-	{
-		return quantity;
-	}
-
-	public double getTotalPrice()
-	{
-		double TotalPrice = quantity*type.getPrice();
-		return TotalPrice;
-	}
-
-	public double getTotalWeight()
-	{
-		double TotalWeight = quantity*type.getWeight();
-		return TotalWeight;
-	}
-
-	public String toString()
-	{
-		String item = type + " " + Integer.toString(quantity) + " " + comment;
-		return item;
-	}
-
-	public boolean equals(Item other)
-	{
-		if(type==other.type)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 }
